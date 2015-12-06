@@ -1,5 +1,5 @@
-A a directed mesh network:
+A a directed ring network:
 
-     0 <--> 1 <--> 2
-     ^           ^
+     0 --> 1 --> 2
+     ^           |   
      |___________|

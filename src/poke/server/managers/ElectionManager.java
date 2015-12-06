@@ -30,6 +30,7 @@ import poke.server.conf.ServerConf;
 import poke.server.election.Election;
 import poke.server.election.ElectionListener;
 import poke.server.election.FloodMaxElection;
+import poke.server.election.Raft;
 
 /**
  * The election manager is used to determine leadership within the network. The
@@ -76,11 +77,19 @@ public class ElectionManager implements ElectionListener {
 
 	/** The election that is in progress - only ONE! */
 	private Election election;
-	private int electionCycle = -1;
+	private Integer termId = -1;
+	private int lastLogIndex;
 	private Integer syncPt = 1;
-
+	private RState state = RState.Follower;
+	
 	/** The leader */
 	Integer leaderNode;
+	
+	public enum RState {
+		Follower, Candidate, Leader
+	}
+	
+	
 
 	public static ElectionManager initManager(ServerConf conf) {
 		ElectionManager.conf = conf;
@@ -110,52 +119,7 @@ public class ElectionManager implements ElectionListener {
 		return this.leaderNode;
 	}
 
-	/**
-	 * initiate an election from within the server - most likely scenario is the
-	 * heart beat manager detects a failure of the leader and calls this method.
-	 * 
-	 * Depending upon the algo. used (bully, flood, lcr, hs) the
-	 * manager.startElection() will create the algo class instance and forward
-	 * processing to it. If there was an election in progress and the election
-	 * ID is not the same, the new election will supplant the current (older)
-	 * election. This should only be triggered from nodes that share an edge
-	 * with the leader.
-	 */
-	public void startElection() {
-		electionCycle = electionInstance().createElectionID();
-		
-		LeaderElection.Builder elb = LeaderElection.newBuilder();
-		elb.setElectId(electionCycle);
-		elb.setAction(ElectAction.DECLAREELECTION);
-		elb.setDesc("Node " + conf.getNodeId() + " detects no leader. Election!");
-		elb.setCandidateId(conf.getNodeId()); // promote self
-		elb.setExpires(2 * 60 * 1000 + System.currentTimeMillis()); // 1 minute
-
-		// bias the voting with my number of votes (for algos that use vote
-		// counting)
-
-		// TODO use voting int votes = conf.getNumberOfElectionVotes();
-
-		MgmtHeader.Builder mhb = MgmtHeader.newBuilder();
-		mhb.setOriginator(conf.getNodeId());
-		mhb.setTime(System.currentTimeMillis());
-		mhb.setSecurityCode(-999); // TODO add security
-
-		VectorClock.Builder rpb = VectorClock.newBuilder();
-		rpb.setNodeId(conf.getNodeId());
-		rpb.setTime(mhb.getTime());
-		rpb.setVersion(electionCycle);
-		mhb.addPath(rpb);
-
-		Management.Builder mb = Management.newBuilder();
-		mb.setHeader(mhb.build());
-		mb.setElection(elb.build());
-
-		// now send it out to all my edges
-		logger.info("Election started by node " + conf.getNodeId());
-		ConnectionManager.broadcast(mb.build());
-	}
-
+	
 	/**
 	 * @param args
 	 */
@@ -173,8 +137,10 @@ public class ElectionManager implements ElectionListener {
 			return;
 		} else if (req.getAction().getNumber() == LeaderElection.ElectAction.THELEADERIS_VALUE) {
 			logger.info("Node " + conf.getNodeId() + " got an answer on who the leader is. Its Node "
-					+ req.getCandidateId());
+						+ req.getCandidateId());
 			this.leaderNode = req.getCandidateId();
+			this.termId = req.getElectId();
+			//TODO Last log index to be synced
 			return;
 		}
 
@@ -184,7 +150,8 @@ public class ElectionManager implements ElectionListener {
 			long ct = System.currentTimeMillis();
 			if (ct > req.getExpires()) {
 				// ran out of time so the election is over
-				election.clear();
+				if(election!=null)
+					election.clear();
 				return;
 			}
 		}
@@ -201,16 +168,35 @@ public class ElectionManager implements ElectionListener {
 	 */
 	public void assessCurrentState(Management mgmt) {
 		// logger.info("ElectionManager.assessCurrentState() checking elected leader status");
-
 		if (firstTime > 0 && ConnectionManager.getNumMgmtConnections() > 0) {
 			// give it two tries to get the leader
-			this.firstTime--;
-			askWhoIsTheLeader();
+			synchronized(syncPt){
+				this.firstTime--;
+				askWhoIsTheLeader();
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		} else if (leaderNode == null && (election == null || !election.isElectionInprogress())) {
 			// if this is not an election state, we need to assess the H&S of
 			// the network's leader
-			synchronized (syncPt) {
-				startElection();
+			if(this.state!=RState.Candidate){
+				synchronized (syncPt) {
+					System.out.println("Starting election");
+			        int m = (int) (0+Math.random()*1500);
+			        try {
+						Thread.sleep(m);
+						startElection();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
 			}
 		}
 	}
@@ -238,15 +224,17 @@ public class ElectionManager implements ElectionListener {
 		MgmtHeader.Builder mhb = MgmtHeader.newBuilder();
 		mhb.setOriginator(conf.getNodeId());
 		mhb.setTime(System.currentTimeMillis());
+		mhb.setSecurityCode(-999);
 
 		VectorClock.Builder rpb = VectorClock.newBuilder();
 		rpb.setNodeId(conf.getNodeId());
 		rpb.setTime(mhb.getTime());
-		rpb.setVersion(electionCycle);
+		rpb.setVersion(termId);
 		mhb.addPath(rpb);
 
 		LeaderElection.Builder elb = LeaderElection.newBuilder();
-		elb.setElectId(electionCycle);
+		elb.setElectId(termId);
+		//elb.setLastLogIndex(lastLogIndex);
 		elb.setAction(ElectAction.THELEADERIS);
 		elb.setDesc("Node " + this.leaderNode + " is the leader");
 		elb.setCandidateId(this.leaderNode);
@@ -257,7 +245,6 @@ public class ElectionManager implements ElectionListener {
 		mb.setElection(elb.build());
 
 		// now send it to the requester
-		logger.info("Election started by node " + conf.getNodeId());
 		try {
 
 			ConnectionManager.getConnection(mgmt.getHeader().getOriginator(), true).write(mb.build());
@@ -268,7 +255,6 @@ public class ElectionManager implements ElectionListener {
 
 	private void askWhoIsTheLeader() {
 		logger.info("Node " + conf.getNodeId() + " is searching for the leader");
-
 		MgmtHeader.Builder mhb = MgmtHeader.newBuilder();
 		mhb.setOriginator(conf.getNodeId());
 		mhb.setTime(System.currentTimeMillis());
@@ -277,11 +263,12 @@ public class ElectionManager implements ElectionListener {
 		VectorClock.Builder rpb = VectorClock.newBuilder();
 		rpb.setNodeId(conf.getNodeId());
 		rpb.setTime(mhb.getTime());
-		rpb.setVersion(electionCycle);
+		rpb.setVersion(termId);
 		mhb.addPath(rpb);
 
 		LeaderElection.Builder elb = LeaderElection.newBuilder();
-		elb.setElectId(-1);
+		elb.setElectId(termId);
+		//elb.setLastLogIndex(lastLogIndex);
 		elb.setAction(ElectAction.WHOISTHELEADER);
 		elb.setDesc("Node " + this.leaderNode + " is asking who the leader is");
 		elb.setCandidateId(-1);
@@ -303,7 +290,7 @@ public class ElectionManager implements ElectionListener {
 				
 				// new election
 				String clazz = ElectionManager.conf.getElectionImplementation();
-
+				System.out.println("class is "+clazz);
 				// if an election instance already existed, this would
 				// override the current election
 				try {
@@ -313,9 +300,9 @@ public class ElectionManager implements ElectionListener {
 
 					// this sucks - bad coding here! should use configuration
 					// properties
-					if (election instanceof FloodMaxElection) {
+					if (election instanceof Raft) {
 						logger.warn("Node " + conf.getNodeId() + " setting max hops to arbitrary value (4)");
-						((FloodMaxElection) election).setMaxHops(4);
+						((Raft) election).setMaxHops(4);
 					}
 
 				} catch (Exception e) {
@@ -327,4 +314,83 @@ public class ElectionManager implements ElectionListener {
 		return election;
 
 	}
+	
+	/**
+	 * initiate an election from within the server - most likely scenario is the
+	 * heart beat manager detects a failure of the leader and calls this method.
+	 * 
+	 * Depending upon the algo. used (bully, flood, lcr, hs) the
+	 * manager.startElection() will create the algo class instance and forward
+	 * processing to it. If there was an election in progress and the election
+	 * ID is not the same, the new election will supplant the current (older)
+	 * election. This should only be triggered from nodes that share an edge
+	 * with the leader.
+	 */
+	public void startElection() {
+		System.out.println("Inside start election");
+		this.state = RState.Candidate;
+		this.termId = electionInstance().createElectionID();
+		
+		LeaderElection.Builder elb = LeaderElection.newBuilder();
+		elb.setElectId(this.termId);
+		//elb.setLastLogIndex(this.lastLogIndex);
+		elb.setAction(ElectAction.DECLAREELECTION);
+		elb.setDesc("Node " + conf.getNodeId() + " detects no leader. Election!");
+		elb.setCandidateId(conf.getNodeId()); // promote self
+		elb.setExpires(2 * 60 * 1000 + System.currentTimeMillis()); // 1 minute
+
+		// bias the voting with my number of votes (for algos that use vote
+		// counting)
+
+		// TODO use voting int votes = conf.getNumberOfElectionVotes();
+
+		MgmtHeader.Builder mhb = MgmtHeader.newBuilder();
+		mhb.setOriginator(conf.getNodeId());
+		mhb.setTime(System.currentTimeMillis());
+		mhb.setSecurityCode(-999); // TODO add security
+
+		VectorClock.Builder rpb = VectorClock.newBuilder();
+		rpb.setNodeId(conf.getNodeId());
+		rpb.setTime(mhb.getTime());
+		rpb.setVersion(termId);
+		mhb.addPath(rpb);
+
+		Management.Builder mb = Management.newBuilder();
+		mb.setHeader(mhb.build());
+		mb.setElection(elb.build());
+
+		// now send it out to all my edges
+		logger.info("Election started by node " + conf.getNodeId());
+		ConnectionManager.broadcast(mb.build());
+	}
+	
+	@Override
+	public Integer getElectionId(){
+		return termId;
+	}
+	
+	@Override
+	public void setTermId(Integer termId){
+		this.termId = termId;
+	}
+	
+	@Override
+	public int getLastLogIndex(){
+		return lastLogIndex;
+	}
+	
+	@Override
+	public RState getState(){
+		return this.state;
+	}
+	
+	@Override
+	public void setState(RState state){
+		this.state = state;
+	}
+	
+	public int getNodeId(){
+		return conf.getNodeId();
+	}
+
 }

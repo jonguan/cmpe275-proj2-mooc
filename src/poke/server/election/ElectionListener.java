@@ -15,6 +15,14 @@
  */
 package poke.server.election;
 
+import poke.server.managers.ElectionManager.RState;
+
+
 public interface ElectionListener {
 	void concludeWith(boolean success, Integer LeaderID);
+	Integer getElectionId();
+	int getLastLogIndex();
+	RState getState();
+	void setState(RState state);
+	void setTermId(Integer electionId);
 }
