@@ -113,7 +113,7 @@ public class Raft implements Election {
 			}
 
 			System.out.println("\n\n*********************************************************");
-			System.out.println(" Raft: Election declared");
+			System.out.println(" FLOOD MAX ELECTION: Election declared");
 			System.out.println("   Term ID:  " + req.getElectId());
 			//System.out.println("   Last Log Index:  " + req.getLastLogIndex());
 			System.out.println("   Rcv from:     Node " + mgmt.getHeader().getOriginator());

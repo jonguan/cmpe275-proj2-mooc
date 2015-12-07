@@ -76,7 +76,7 @@ public class ElectionManager implements ElectionListener {
 	private int firstTime = 2;
 
 	/** The election that is in progress - only ONE! */
-	private Election election;
+	public Election election;
 	private Integer termId = -1;
 	private int lastLogIndex;
 	private Integer syncPt = 1;
@@ -137,7 +137,7 @@ public class ElectionManager implements ElectionListener {
 			return;
 		} else if (req.getAction().getNumber() == LeaderElection.ElectAction.THELEADERIS_VALUE) {
 			logger.info("Node " + conf.getNodeId() + " got an answer on who the leader is. Its Node "
-						+ req.getCandidateId());
+					+ req.getCandidateId());
 			this.leaderNode = req.getCandidateId();
 			this.termId = req.getElectId();
 			//TODO Last log index to be synced

@@ -15,8 +15,11 @@
  */
 package poke.demo;
 
+import com.google.protobuf.GeneratedMessage;
 import poke.client.ClientCommand;
 import poke.client.ClientPrintListener;
+import poke.client.comm.CommConnection;
+import poke.client.comm.CommHandler;
 import poke.client.comm.CommListener;
 
 /**
@@ -35,6 +38,11 @@ public class Jab {
 
 	public void run() {
 		ClientCommand cc = new ClientCommand("localhost", 5570);
+		CommConnection comc=new CommConnection("localhost", 5570);
+		CommHandler ch=new CommHandler();
+
+	//	ch.send(new GeneratedMessage("hi"));
+
 		CommListener listener = new ClientPrintListener("jab demo");
 		cc.addListener(listener);
 

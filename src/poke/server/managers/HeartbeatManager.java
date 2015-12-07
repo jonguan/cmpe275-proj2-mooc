@@ -284,9 +284,28 @@ public class HeartbeatManager extends Thread {
 
 		@Override
 		public void operationComplete(ChannelFuture future) throws Exception {
+			Integer syncPt=1;
 			if (outgoingHB.containsValue(heart)) {
 				logger.warn("HB outgoing channel closing for node '" + heart.getNodeId() + "' at " + heart.getHost());
 				outgoingHB.remove(future.channel());
+
+				ElectionManager.getInstance().leaderNode=null;
+				ElectionManager.getInstance().election=null;
+
+				synchronized (syncPt) {
+					System.out.println("Starting election");
+					int m = (int) (0+Math.random()*1500);
+					try {
+						Thread.sleep(m);
+						ElectionManager.getInstance().startElection();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+
 			} else if (incomingHB.containsValue(heart)) {
 				logger.warn("HB incoming channel closing for node '" + heart.getNodeId() + "' at " + heart.getHost());
 				incomingHB.remove(future.channel());
