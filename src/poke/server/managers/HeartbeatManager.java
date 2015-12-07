@@ -20,6 +20,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 
 import java.net.SocketAddress;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -58,6 +59,8 @@ public class HeartbeatManager extends Thread {
 
 	// frequency that heartbeats are checked
 	static final int sHeartRate = 5000; // msec
+	static final int hbTimeout = 12000; // msec
+	int heartRate = sHeartRate;
 
 	private static ServerConf conf;
 
@@ -118,9 +121,14 @@ public class HeartbeatManager extends Thread {
 			logger.error("Unknown heartbeat received from node ", mgmt.getHeader().getOriginator());
 			return;
 		} else {
-			//if (logger.isDebugEnabled())
+			if (logger.isDebugEnabled())
 				logger.info("HeartbeatManager.processRequest() HB received from " + mgmt.getHeader().getOriginator());
 
+			if (ElectionManager.getInstance().whoIsTheLeader() != null && hd.getNodeId() == ElectionManager.getInstance().whoIsTheLeader().intValue() ){
+				int variance = (int) (Math.random() * 1000);
+				heartRate = sHeartRate + variance;
+				logger.debug("heart Rate is " + heartRate);
+			}
 			hd.setFailures(0);
 			hd.setLastBeat(System.currentTimeMillis());
 		}
@@ -218,13 +226,19 @@ public class HeartbeatManager extends Thread {
 		return b.build();
 	}
 
+	/**
+	 * Incoming HB from leader will change node's HB timer
+	 * Leader: Every heart beat, HB to follower nodes (outgoing HB)
+	 * Follower: On receive HB, update the timestamp.  If timeout occurs, start election by
+	 *    sending to other nodes.
+	 */
 	@Override
 	public void run() {
 		logger.info("starting HB manager");
 
 		while (forever) {
 			try {
-				Thread.sleep(sHeartRate);
+				Thread.sleep(heartRate);
 
 				// ignore until we have edges with other nodes
 				if (outgoingHB.size() > 0) {
