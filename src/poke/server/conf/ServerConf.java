@@ -45,6 +45,9 @@ public class ServerConf {
 	private int numberOfElectionVotes = 1; // used to break ties in elections
 	private String forwardingImplementation;
 	private String electionImplementation;
+
+	private String classlist;
+
 	/** public communication (default is 5570) */
 	private int port = 5570;
 	/** internal node-to-node communication (default is 5571) */
@@ -107,6 +110,10 @@ public class ServerConf {
 	public String getNodeName() {
 		return nodeName;
 	}
+
+	public String getClasslist() {return classlist; }
+	public void setClasslist(String classlist) { this.classlist = classlist;}
+
 
 	public String getForwardingImplementation() {
 		return forwardingImplementation;
