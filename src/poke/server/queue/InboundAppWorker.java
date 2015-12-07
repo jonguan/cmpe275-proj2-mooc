@@ -76,6 +76,9 @@ public class InboundAppWorker extends Thread {
 					// we use a pool instead, we can gain some relief.
 
 					Resource rsc = ResourceFactory.getInstance().resourceInstance(req.getHeader());
+					logger.info("Header for job resource: "+req.getHeader().toString());
+					logger.info("Payload for job resource: "+req.getBody().toString());
+
 
 					Request reply = null;
 					if (rsc == null) {
