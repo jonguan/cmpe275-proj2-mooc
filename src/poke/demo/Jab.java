@@ -38,8 +38,8 @@ public class Jab {
 
 	public void run() {
 		ClientCommand cc = new ClientCommand("localhost", 5570);
-		CommConnection comc=new CommConnection("localhost", 5570);
-		CommHandler ch=new CommHandler();
+		//CommConnection comc=new CommConnection("localhost", 5570);
+		//CommHandler ch=new CommHandler();
 
 	//	ch.send(new GeneratedMessage("hi"));
 

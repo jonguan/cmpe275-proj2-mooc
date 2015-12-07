@@ -116,8 +116,10 @@ public class CommConnection {
 		group = new NioEventLoopGroup();
 		try {
 			handler = new CommHandler();
+			CommInitializer ci=new CommInitializer(handler,false);
+
 			Bootstrap b = new Bootstrap();
-			b.group(group).channel(NioSocketChannel.class).handler(handler);
+			b.group(group).channel(NioSocketChannel.class).handler(ci);
 			b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
 			b.option(ChannelOption.TCP_NODELAY, true);
 			b.option(ChannelOption.SO_KEEPALIVE, true);
@@ -193,7 +195,7 @@ public class CommConnection {
 					if (ch.isWritable()) {
 						CommHandler handler = conn.connect().pipeline().get(CommHandler.class);
 
-						if (!handler.send(msg))
+						if (!handler.send(msg,ch))
 							conn.outbound.putFirst(msg);
 
 					} else
