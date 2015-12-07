@@ -31,5 +31,3 @@ Storage:
 
 A storage framework is provided to show you a way (others exists) 
 to decouple domain logic from backend persistence.
-
-this is done
