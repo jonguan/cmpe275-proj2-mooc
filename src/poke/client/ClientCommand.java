@@ -24,6 +24,9 @@ import poke.comm.App.Header;
 import poke.comm.App.Payload;
 import poke.comm.App.Ping;
 import poke.comm.App.Request;
+import poke.comm.App.ClientMessage;
+import poke.comm.App.*;
+
 
 /**
  * The command class is the concrete implementation of the functionality of our
@@ -81,13 +84,28 @@ public class ClientCommand {
 		p.setPing(f.build());
 		r.setBody(p.build());
 
+		ClientMessage.Builder clBuilder  = ClientMessage.newBuilder();
+
+		clBuilder.setFunctionality(ClientMessage.Functionalities.GETSUSER);
+		clBuilder.setMessageType(ClientMessage.MessageType.REQUEST);
+		Details.Builder db = Details.newBuilder();
+		db.setUserId(clBuilder.getClientId());
+		clBuilder.setDetails(db);
+
+
+//Build Payload
+		//Payload.Builder p = Payload.newBuilder();
+//Not adding anything as it is just a register message
+		p.setClientMessage(clBuilder);
+
 		// header with routing info
 		Header.Builder h = Header.newBuilder();
 		h.setOriginator(1000);
 		h.setTag("test finger");
 		h.setTime(System.currentTimeMillis());
-		h.setRoutingId(Header.Routing.PING);
+		h.setRoutingId(Header.Routing.JOBS);
 		r.setHeader(h.build());
+		//r.setBody();
 
 		Request req = r.build();
 

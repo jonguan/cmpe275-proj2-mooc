@@ -46,7 +46,7 @@ public class Jab {
 		CommListener listener = new ClientPrintListener("jab demo");
 		cc.addListener(listener);
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			count++;
 			cc.poke(tag, count);
 		}
@@ -54,7 +54,7 @@ public class Jab {
 
 	public static void main(String[] args) {
 		try {
-			Jab jab = new Jab("jab");
+			Jab jab = new Jab("Jab");
 			jab.run();
 
 			// we are running asynchronously

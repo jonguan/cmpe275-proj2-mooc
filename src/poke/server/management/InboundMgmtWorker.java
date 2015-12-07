@@ -76,9 +76,12 @@ public class InboundMgmtWorker extends Thread {
 				ManagementQueueEntry msg = ManagementQueue.inbound.take();
 
 				if (logger.isDebugEnabled())
-					logger.debug("Inbound management message received");
+					logger.info("Inbound management message received");
 
 				Management mgmt = (Management) msg.req;
+
+				logger.info("msg to string:**************"+msg.toString());
+
 				if (mgmt.hasBeat()) {
 					/**
 					 * Incoming: this is from a node we requested to create a
@@ -119,7 +122,7 @@ public class InboundMgmtWorker extends Thread {
 		}
 
 		if (!forever) {
-			logger.info("connection queue closing");
+			logger.info("connection queue closing...*******");
 		}
 	}
 }

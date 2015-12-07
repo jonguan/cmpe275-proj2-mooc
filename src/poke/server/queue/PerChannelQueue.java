@@ -135,14 +135,16 @@ public class PerChannelQueue implements ChannelQueue {
 	 * @see poke.server.ChannelQueue#enqueueResponse(eye.Comm.Response)
 	 */
 	@Override
-	public void enqueueResponse(Request reply, Channel notused) {
+	public void enqueueResponse(Request reply, Channel chn) {
 		if (reply == null)
 			return;
 
 		try {
 			outbound.put(reply);
+			chn.writeAndFlush(outbound);
+
 		} catch (InterruptedException e) {
-			logger.error("message not enqueued for reply", e);
+			e.printStackTrace();
 		}
 	}
 
