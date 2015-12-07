@@ -14,6 +14,5 @@ hs_err_pid*
 # Intellij
 **.idea
 .DS_Store
-**generated
 *.log
 
