@@ -55,6 +55,8 @@ public class PingResource implements Resource {
 
 		Request reply = rb.build();
 
+		logger.info("inside process of ping: "+reply.getBody());
+
 		return reply;
 	}
 }

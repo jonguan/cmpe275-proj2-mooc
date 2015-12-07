@@ -90,7 +90,7 @@ public class InboundAppWorker extends Thread {
 					}
 
 					if (reply != null)
-						sq.enqueueResponse(reply, null);
+						sq.enqueueResponse(reply, conn);
 				}
 
 			} catch (InterruptedException ie) {

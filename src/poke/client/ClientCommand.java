@@ -88,6 +88,7 @@ public class ClientCommand {
 		h.setTime(System.currentTimeMillis());
 		h.setRoutingId(Header.Routing.PING);
 		r.setHeader(h.build());
+		//r.setBody();
 
 		Request req = r.build();
 

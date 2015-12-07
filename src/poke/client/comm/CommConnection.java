@@ -209,7 +209,7 @@ public class CommConnection {
 			}
 
 			if (!forever) {
-				CommConnection.logger.info("connection queue closing");
+				CommConnection.logger.info("1121212121connection queue closing*************");
 			}
 		}
 	}
