@@ -116,10 +116,10 @@ public class ClientCommand {
 		}
 	}
 
-	public void getCourse(int num) {
+	public void getCourse(String courseid) {
 		// data to send
 		Course.Builder f = Course.newBuilder();
-		f.setCourseId(num);
+		f.setCourseid(courseid);
 
 		//f.setTag(tag);
 		//f.setNumber(num);

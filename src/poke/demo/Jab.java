@@ -51,7 +51,7 @@ public class Jab {
 			cc.poke(tag, count);
 		}
 
-		cc.getCourse(1);
+		cc.getCourse("cmpe273");
 	}
 
 	public static void main(String[] args) {
