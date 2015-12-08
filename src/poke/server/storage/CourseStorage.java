@@ -13,8 +13,8 @@ public interface CourseStorage {
 
     boolean updateCourse(Course course);
 
-    boolean removeCourse(Integer courseId);
+    boolean removeCourse(String courseId);
 
-    Course findCourse(Integer courseId);
+    Course findCourse(String courseId);
 
 }

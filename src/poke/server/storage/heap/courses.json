@@ -1,0 +1,16 @@
+[{
+  "courseid":"cmpe273",
+  "coursename": "cmpe 273",
+  "coursedescription":"desc for course"
+  },
+  {
+    "courseid": "cmpe275",
+    "coursename": "course 275",
+    "coursedescription": "desc for course 2"
+  },
+  {
+    "courseid":"cmpe277",
+    "coursename": "cmpe 277",
+    "coursedescription":"desc for course 3"
+  }
+]

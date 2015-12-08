@@ -22656,41 +22656,46 @@ public final class App {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required int32 course_id = 1;</code>
+     * <code>required string courseid = 1;</code>
      */
-    boolean hasCourseId();
+    boolean hasCourseid();
     /**
-     * <code>required int32 course_id = 1;</code>
+     * <code>required string courseid = 1;</code>
      */
-    int getCourseId();
-
+    java.lang.String getCourseid();
     /**
-     * <code>required string course_name = 2;</code>
-     */
-    boolean hasCourseName();
-    /**
-     * <code>required string course_name = 2;</code>
-     */
-    java.lang.String getCourseName();
-    /**
-     * <code>required string course_name = 2;</code>
+     * <code>required string courseid = 1;</code>
      */
     com.google.protobuf.ByteString
-        getCourseNameBytes();
+        getCourseidBytes();
 
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
-    boolean hasCourseDescription();
+    boolean hasCoursename();
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
-    java.lang.String getCourseDescription();
+    java.lang.String getCoursename();
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
     com.google.protobuf.ByteString
-        getCourseDescriptionBytes();
+        getCoursenameBytes();
+
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    boolean hasCoursedescription();
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    java.lang.String getCoursedescription();
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCoursedescriptionBytes();
   }
   /**
    * Protobuf type {@code Course}
@@ -22744,21 +22749,22 @@ public final class App {
               }
               break;
             }
-            case 8: {
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              courseId_ = input.readInt32();
+              courseid_ = bs;
               break;
             }
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              courseName_ = bs;
+              coursename_ = bs;
               break;
             }
             case 26: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              courseDescription_ = bs;
+              coursedescription_ = bs;
               break;
             }
           }
@@ -22801,34 +22807,19 @@ public final class App {
     }
 
     private int bitField0_;
-    public static final int COURSE_ID_FIELD_NUMBER = 1;
-    private int courseId_;
+    public static final int COURSEID_FIELD_NUMBER = 1;
+    private java.lang.Object courseid_;
     /**
-     * <code>required int32 course_id = 1;</code>
+     * <code>required string courseid = 1;</code>
      */
-    public boolean hasCourseId() {
+    public boolean hasCourseid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 course_id = 1;</code>
+     * <code>required string courseid = 1;</code>
      */
-    public int getCourseId() {
-      return courseId_;
-    }
-
-    public static final int COURSE_NAME_FIELD_NUMBER = 2;
-    private java.lang.Object courseName_;
-    /**
-     * <code>required string course_name = 2;</code>
-     */
-    public boolean hasCourseName() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required string course_name = 2;</code>
-     */
-    public java.lang.String getCourseName() {
-      java.lang.Object ref = courseName_;
+    public java.lang.String getCourseid() {
+      java.lang.Object ref = courseid_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -22836,41 +22827,41 @@ public final class App {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          courseName_ = s;
+          courseid_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string course_name = 2;</code>
+     * <code>required string courseid = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getCourseNameBytes() {
-      java.lang.Object ref = courseName_;
+        getCourseidBytes() {
+      java.lang.Object ref = courseid_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        courseName_ = b;
+        courseid_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int COURSE_DESCRIPTION_FIELD_NUMBER = 3;
-    private java.lang.Object courseDescription_;
+    public static final int COURSENAME_FIELD_NUMBER = 2;
+    private java.lang.Object coursename_;
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
-    public boolean hasCourseDescription() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public boolean hasCoursename() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
-    public java.lang.String getCourseDescription() {
-      java.lang.Object ref = courseDescription_;
+    public java.lang.String getCoursename() {
+      java.lang.Object ref = coursename_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -22878,22 +22869,64 @@ public final class App {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          courseDescription_ = s;
+          coursename_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string course_description = 3;</code>
+     * <code>required string coursename = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getCourseDescriptionBytes() {
-      java.lang.Object ref = courseDescription_;
+        getCoursenameBytes() {
+      java.lang.Object ref = coursename_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        courseDescription_ = b;
+        coursename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COURSEDESCRIPTION_FIELD_NUMBER = 3;
+    private java.lang.Object coursedescription_;
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    public boolean hasCoursedescription() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    public java.lang.String getCoursedescription() {
+      java.lang.Object ref = coursedescription_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          coursedescription_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string coursedescription = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCoursedescriptionBytes() {
+      java.lang.Object ref = coursedescription_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        coursedescription_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -22901,9 +22934,9 @@ public final class App {
     }
 
     private void initFields() {
-      courseId_ = 0;
-      courseName_ = "";
-      courseDescription_ = "";
+      courseid_ = "";
+      coursename_ = "";
+      coursedescription_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -22911,11 +22944,11 @@ public final class App {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasCourseId()) {
+      if (!hasCourseid()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasCourseName()) {
+      if (!hasCoursename()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -22927,13 +22960,13 @@ public final class App {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, courseId_);
+        output.writeBytes(1, getCourseidBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getCourseNameBytes());
+        output.writeBytes(2, getCoursenameBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getCourseDescriptionBytes());
+        output.writeBytes(3, getCoursedescriptionBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -22946,15 +22979,15 @@ public final class App {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, courseId_);
+          .computeBytesSize(1, getCourseidBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getCourseNameBytes());
+          .computeBytesSize(2, getCoursenameBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getCourseDescriptionBytes());
+          .computeBytesSize(3, getCoursedescriptionBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -23073,11 +23106,11 @@ public final class App {
 
       public Builder clear() {
         super.clear();
-        courseId_ = 0;
+        courseid_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        courseName_ = "";
+        coursename_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        courseDescription_ = "";
+        coursedescription_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -23110,15 +23143,15 @@ public final class App {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.courseId_ = courseId_;
+        result.courseid_ = courseid_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.courseName_ = courseName_;
+        result.coursename_ = coursename_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.courseDescription_ = courseDescription_;
+        result.coursedescription_ = coursedescription_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -23135,17 +23168,19 @@ public final class App {
 
       public Builder mergeFrom(poke.comm.App.Course other) {
         if (other == poke.comm.App.Course.getDefaultInstance()) return this;
-        if (other.hasCourseId()) {
-          setCourseId(other.getCourseId());
-        }
-        if (other.hasCourseName()) {
-          bitField0_ |= 0x00000002;
-          courseName_ = other.courseName_;
+        if (other.hasCourseid()) {
+          bitField0_ |= 0x00000001;
+          courseid_ = other.courseid_;
           onChanged();
         }
-        if (other.hasCourseDescription()) {
+        if (other.hasCoursename()) {
+          bitField0_ |= 0x00000002;
+          coursename_ = other.coursename_;
+          onChanged();
+        }
+        if (other.hasCoursedescription()) {
           bitField0_ |= 0x00000004;
-          courseDescription_ = other.courseDescription_;
+          coursedescription_ = other.coursedescription_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -23153,11 +23188,11 @@ public final class App {
       }
 
       public final boolean isInitialized() {
-        if (!hasCourseId()) {
+        if (!hasCourseid()) {
           
           return false;
         }
-        if (!hasCourseName()) {
+        if (!hasCoursename()) {
           
           return false;
         }
@@ -23183,56 +23218,100 @@ public final class App {
       }
       private int bitField0_;
 
-      private int courseId_ ;
+      private java.lang.Object courseid_ = "";
       /**
-       * <code>required int32 course_id = 1;</code>
+       * <code>required string courseid = 1;</code>
        */
-      public boolean hasCourseId() {
+      public boolean hasCourseid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 course_id = 1;</code>
+       * <code>required string courseid = 1;</code>
        */
-      public int getCourseId() {
-        return courseId_;
+      public java.lang.String getCourseid() {
+        java.lang.Object ref = courseid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            courseid_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 course_id = 1;</code>
+       * <code>required string courseid = 1;</code>
        */
-      public Builder setCourseId(int value) {
-        bitField0_ |= 0x00000001;
-        courseId_ = value;
+      public com.google.protobuf.ByteString
+          getCourseidBytes() {
+        java.lang.Object ref = courseid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          courseid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string courseid = 1;</code>
+       */
+      public Builder setCourseid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        courseid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 course_id = 1;</code>
+       * <code>required string courseid = 1;</code>
        */
-      public Builder clearCourseId() {
+      public Builder clearCourseid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        courseId_ = 0;
+        courseid_ = getDefaultInstance().getCourseid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string courseid = 1;</code>
+       */
+      public Builder setCourseidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        courseid_ = value;
         onChanged();
         return this;
       }
 
-      private java.lang.Object courseName_ = "";
+      private java.lang.Object coursename_ = "";
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
-      public boolean hasCourseName() {
+      public boolean hasCoursename() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
-      public java.lang.String getCourseName() {
-        java.lang.Object ref = courseName_;
+      public java.lang.String getCoursename() {
+        java.lang.Object ref = coursename_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            courseName_ = s;
+            coursename_ = s;
           }
           return s;
         } else {
@@ -23240,75 +23319,75 @@ public final class App {
         }
       }
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getCourseNameBytes() {
-        java.lang.Object ref = courseName_;
+          getCoursenameBytes() {
+        java.lang.Object ref = coursename_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          courseName_ = b;
+          coursename_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
-      public Builder setCourseName(
+      public Builder setCoursename(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        courseName_ = value;
+        coursename_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
-      public Builder clearCourseName() {
+      public Builder clearCoursename() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        courseName_ = getDefaultInstance().getCourseName();
+        coursename_ = getDefaultInstance().getCoursename();
         onChanged();
         return this;
       }
       /**
-       * <code>required string course_name = 2;</code>
+       * <code>required string coursename = 2;</code>
        */
-      public Builder setCourseNameBytes(
+      public Builder setCoursenameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        courseName_ = value;
+        coursename_ = value;
         onChanged();
         return this;
       }
 
-      private java.lang.Object courseDescription_ = "";
+      private java.lang.Object coursedescription_ = "";
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
-      public boolean hasCourseDescription() {
+      public boolean hasCoursedescription() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
-      public java.lang.String getCourseDescription() {
-        java.lang.Object ref = courseDescription_;
+      public java.lang.String getCoursedescription() {
+        java.lang.Object ref = coursedescription_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            courseDescription_ = s;
+            coursedescription_ = s;
           }
           return s;
         } else {
@@ -23316,53 +23395,53 @@ public final class App {
         }
       }
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
       public com.google.protobuf.ByteString
-          getCourseDescriptionBytes() {
-        java.lang.Object ref = courseDescription_;
+          getCoursedescriptionBytes() {
+        java.lang.Object ref = coursedescription_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          courseDescription_ = b;
+          coursedescription_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
-      public Builder setCourseDescription(
+      public Builder setCoursedescription(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000004;
-        courseDescription_ = value;
+        coursedescription_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
-      public Builder clearCourseDescription() {
+      public Builder clearCoursedescription() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        courseDescription_ = getDefaultInstance().getCourseDescription();
+        coursedescription_ = getDefaultInstance().getCoursedescription();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string course_description = 3;</code>
+       * <code>optional string coursedescription = 3;</code>
        */
-      public Builder setCourseDescriptionBytes(
+      public Builder setCoursedescriptionBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000004;
-        courseDescription_ = value;
+        coursedescription_ = value;
         onChanged();
         return this;
       }
@@ -23570,13 +23649,13 @@ public final class App {
       "ster_id\030\003 \001(\005\022\025\n\rto_cluster_id\030\004 \001(\005\"^\n\007" +
       "Request\022\027\n\006header\030\001 \002(\0132\007.Header\022\026\n\004body" +
       "\030\002 \002(\0132\010.Payload\022\"\n\014join_message\030\003 \001(\0132\014" +
-      ".JoinMessage\"L\n\006Course\022\021\n\tcourse_id\030\001 \002(" +
-      "\005\022\023\n\013course_name\030\002 \002(\t\022\032\n\022course_descrip",
-      "tion\030\003 \001(\t*\221\001\n\nPokeStatus\022\n\n\006UKNOWN\020\001\022\013\n" +
-      "\007SUCCESS\020\002\022\013\n\007NOFOUND\020d\022\020\n\014NOINCOMPLETE\020" +
-      "e\022\n\n\006NOAUTH\020f\022\020\n\014NOCONNECTION\020g\022\017\n\013NOREA" +
-      "CHABLE\020h\022\016\n\nNORESOURCE\020i\022\014\n\007FAILURE\020\307\001B\r" +
-      "\n\tpoke.commH\001"
+      ".JoinMessage\"I\n\006Course\022\020\n\010courseid\030\001 \002(\t" +
+      "\022\022\n\ncoursename\030\002 \002(\t\022\031\n\021coursedescriptio",
+      "n\030\003 \001(\t*\221\001\n\nPokeStatus\022\n\n\006UKNOWN\020\001\022\013\n\007SU" +
+      "CCESS\020\002\022\013\n\007NOFOUND\020d\022\020\n\014NOINCOMPLETE\020e\022\n" +
+      "\n\006NOAUTH\020f\022\020\n\014NOCONNECTION\020g\022\017\n\013NOREACHA" +
+      "BLE\020h\022\016\n\nNORESOURCE\020i\022\014\n\007FAILURE\020\307\001B\r\n\tp" +
+      "oke.commH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -23703,7 +23782,7 @@ public final class App {
     internal_static_Course_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Course_descriptor,
-        new java.lang.String[] { "CourseId", "CourseName", "CourseDescription", });
+        new java.lang.String[] { "Courseid", "Coursename", "Coursedescription", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
