@@ -37,7 +37,7 @@ public class Jab {
 	}
 
 	public void run() {
-		ClientCommand cc = new ClientCommand("localhost", 5570);
+		ClientCommand cc = new ClientCommand("10.0.6.3", 5573);
 		//CommConnection comc=new CommConnection("localhost", 5570);
 		//CommHandler ch=new CommHandler();
 
