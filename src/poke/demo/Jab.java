@@ -50,6 +50,8 @@ public class Jab {
 			count++;
 			cc.poke(tag, count);
 		}
+
+		cc.getCourse(1);
 	}
 
 	public static void main(String[] args) {

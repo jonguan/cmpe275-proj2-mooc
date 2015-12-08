@@ -115,4 +115,51 @@ public class ClientCommand {
 			logger.warn("Unable to deliver message, queuing");
 		}
 	}
+
+	public void getCourse(int num) {
+		// data to send
+		Course.Builder f = Course.newBuilder();
+		f.setCourseId(num);
+
+		//f.setTag(tag);
+		//f.setNumber(num);
+
+		// payload containing data
+		Request.Builder r = Request.newBuilder();
+		Payload.Builder p = Payload.newBuilder();
+		//p.setPing(f.build());
+		//p.setPing(num);
+		r.setBody(p.build());
+
+		ClientMessage.Builder clBuilder  = ClientMessage.newBuilder();
+
+		clBuilder.setFunctionality(ClientMessage.Functionalities.GETSUSER);
+		clBuilder.setMessageType(ClientMessage.MessageType.REQUEST);
+		Details.Builder db = Details.newBuilder();
+		db.setUserId(clBuilder.getClientId());
+		clBuilder.setDetails(db);
+
+
+//Build Payload
+		//Payload.Builder p = Payload.newBuilder();
+//Not adding anything as it is just a register message
+		p.setClientMessage(clBuilder);
+
+		// header with routing info
+		Header.Builder h = Header.newBuilder();
+		h.setOriginator(1000);
+		h.setTag("test finger");
+		h.setTime(System.currentTimeMillis());
+		h.setRoutingId(Header.Routing.JOBS);
+		r.setHeader(h.build());
+		//r.setBody();
+
+		Request req = r.build();
+
+		try {
+			comm.sendMessage(req);
+		} catch (Exception e) {
+			logger.warn("Unable to deliver message, queuing");
+		}
+	}
 }
