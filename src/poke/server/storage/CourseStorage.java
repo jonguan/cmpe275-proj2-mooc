@@ -10,12 +10,12 @@ import java.util.List;
  */
 public interface CourseStorage {
 
-    boolean addCourse(CourseHeapStorage.ParseCourse course);
+    boolean addCourse(Course course);
 
-    boolean updateCourse(CourseHeapStorage.ParseCourse course);
+    boolean updateCourse(Course course);
 
     boolean removeCourse(String courseId);
 
-    CourseHeapStorage.ParseCourse findCourse(String courseId);
+    Course findCourse(String courseId);
 
 }

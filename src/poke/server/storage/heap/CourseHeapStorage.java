@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class CourseHeapStorage implements CourseStorage {
     protected static Logger logger = LoggerFactory.getLogger("storage");
-    private HashMap<String, ParseCourse> spaces = new HashMap<String, ParseCourse>();
+    private HashMap<String, Course> spaces = new HashMap<String, Course>();
     List coursesList = new ArrayList<>();
 
     public CourseHeapStorage(ServerConf conf) {
@@ -49,7 +49,11 @@ public class CourseHeapStorage implements CourseStorage {
                 logger.debug("course is " + jsonCourse);
 
                 ParseCourse course = mygson.fromJson(jsonCourse, ParseCourse.class);
-                this.addCourse(course);
+                Course.Builder cBuilder = Course.newBuilder();
+                cBuilder.setCourseid(course.courseid);
+                cBuilder.setCoursename(course.coursename);
+                cBuilder.setCoursedescription(course.coursedescription);
+                this.addCourse(cBuilder.build());
             }
             logger.debug("courses are " + spaces);
         } catch (Exception e) {
@@ -59,14 +63,14 @@ public class CourseHeapStorage implements CourseStorage {
     }
 
     @Override
-    public boolean addCourse(ParseCourse course) {
+    public boolean addCourse(Course course) {
         spaces.put(course.getCourseid(), course);
         return true;
 
     }
 
     @Override
-    public boolean updateCourse(ParseCourse course) {
+    public boolean updateCourse(Course course) {
         spaces.put(course.getCourseid(), course);
         return true;
     }
@@ -78,7 +82,7 @@ public class CourseHeapStorage implements CourseStorage {
     }
 
     @Override
-    public ParseCourse findCourse(String courseId) {
+    public Course findCourse(String courseId) {
         return spaces.get(courseId);
     }
 
