@@ -46,6 +46,7 @@ import poke.server.managers.HeartbeatPusher;
 import poke.server.managers.JobManager;
 import poke.server.managers.NetworkManager;
 import poke.server.resources.ResourceFactory;
+import poke.server.storage.heap.CourseHeapStorage;
 
 /**
  * Note high surges of messages can close down the channel if the handler cannot
@@ -70,6 +71,7 @@ public class Server {
 	protected NetworkManager networkMgr;
 	protected HeartbeatManager heartbeatMgr;
 	protected ElectionManager electionMgr;
+	protected CourseHeapStorage courseStorage;
 
 	/**
 	 * static because we need to get a handle to the factory from the shutdown
@@ -110,6 +112,9 @@ public class Server {
 			if (!verifyConf(conf))
 				throw new RuntimeException("verification of configuration failed");
 			ResourceFactory.initialize(conf);
+
+			// init storage
+			courseStorage = new CourseHeapStorage(conf);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
