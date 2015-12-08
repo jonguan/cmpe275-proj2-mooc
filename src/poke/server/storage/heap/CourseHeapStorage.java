@@ -22,13 +22,13 @@ public class CourseHeapStorage implements CourseStorage {
     private HashMap<Integer, Course> spaces = new HashMap<Integer, Course>();
 
     public CourseHeapStorage(ServerConf conf) {
-        String filename = conf.getClasslist();
-        // expecting filename to be the complete file address
-        File coursefile = new File(filename);
-        byte[] raw = new byte[(int) coursefile.length()];
-        BufferedInputStream br = new BufferedInputStream(new FileInputStream(coursefile));
-        br.read(raw);
-        conf = JsonUtil.decode(new String(raw), ServerConf.class);
+//        String filename = conf.getClasslist();
+//        // expecting filename to be the complete file address
+//        File coursefile = new File(filename);
+//        byte[] raw = new byte[(int) coursefile.length()];
+//        BufferedInputStream br = new BufferedInputStream(new FileInputStream(coursefile));
+//        br.read(raw);
+//        conf = JsonUtil.decode(new String(raw), ServerConf.class);
     }
 
     @Override
