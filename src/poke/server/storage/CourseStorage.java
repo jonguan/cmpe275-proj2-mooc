@@ -1,6 +1,7 @@
 package poke.server.storage;
 
 import poke.comm.App.Course;
+import poke.server.storage.heap.CourseHeapStorage;
 
 import java.util.List;
 
@@ -9,12 +10,12 @@ import java.util.List;
  */
 public interface CourseStorage {
 
-    boolean addCourse(Course course);
+    boolean addCourse(CourseHeapStorage.ParseCourse course);
 
-    boolean updateCourse(Course course);
+    boolean updateCourse(CourseHeapStorage.ParseCourse course);
 
     boolean removeCourse(String courseId);
 
-    Course findCourse(String courseId);
+    CourseHeapStorage.ParseCourse findCourse(String courseId);
 
 }

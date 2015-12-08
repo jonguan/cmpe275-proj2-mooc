@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class CourseHeapStorage implements CourseStorage {
     protected static Logger logger = LoggerFactory.getLogger("storage");
-    private HashMap<String, Course> spaces = new HashMap<String, Course>();
+    private HashMap<String, ParseCourse> spaces = new HashMap<String, ParseCourse>();
     List coursesList = new ArrayList<>();
 
     public CourseHeapStorage(ServerConf conf) {
@@ -48,9 +48,10 @@ public class CourseHeapStorage implements CourseStorage {
             for ( JsonElement jsonCourse : courseArray ) {
                 logger.debug("course is " + jsonCourse);
 
-                Course course = mygson.fromJson(jsonCourse, ParseCourse.class);
+                ParseCourse course = mygson.fromJson(jsonCourse, ParseCourse.class);
                 this.addCourse(course);
             }
+            logger.debug("courses are " + spaces);
         } catch (Exception e) {
             logger.error("Error: " + e);
         }
@@ -58,14 +59,14 @@ public class CourseHeapStorage implements CourseStorage {
     }
 
     @Override
-    public boolean addCourse(Course course) {
+    public boolean addCourse(ParseCourse course) {
         spaces.put(course.getCourseid(), course);
         return true;
 
     }
 
     @Override
-    public boolean updateCourse(Course course) {
+    public boolean updateCourse(ParseCourse course) {
         spaces.put(course.getCourseid(), course);
         return true;
     }
@@ -77,7 +78,7 @@ public class CourseHeapStorage implements CourseStorage {
     }
 
     @Override
-    public Course findCourse(String courseId) {
+    public ParseCourse findCourse(String courseId) {
         return spaces.get(courseId);
     }
 
@@ -85,6 +86,16 @@ public class CourseHeapStorage implements CourseStorage {
         public String coursename;
         public String courseid;
         public String coursedescription;
+
+        public String getCourseid() {
+            return courseid;
+        }
+        public String getCoursename() {
+            return coursename;
+        }
+        public String getCoursedescription() {
+            return coursedescription;
+        }
     }
 
 }
