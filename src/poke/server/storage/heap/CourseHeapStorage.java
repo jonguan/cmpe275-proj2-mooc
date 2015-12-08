@@ -48,7 +48,7 @@ public class CourseHeapStorage implements CourseStorage {
             for ( JsonElement jsonCourse : courseArray ) {
                 logger.debug("course is " + jsonCourse);
 
-                Course course = mygson.fromJson(jsonCourse, Course.class);
+                Course course = mygson.fromJson(jsonCourse, ParseCourse.class);
                 this.addCourse(course);
             }
         } catch (Exception e) {
@@ -81,6 +81,10 @@ public class CourseHeapStorage implements CourseStorage {
         return spaces.get(courseId);
     }
 
-
+    public class ParseCourse{
+        public String coursename;
+        public String courseid;
+        public String coursedescription;
+    }
 
 }
